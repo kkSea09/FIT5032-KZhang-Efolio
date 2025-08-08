@@ -104,6 +104,12 @@
     <section class="lab-section">
       <h2>Attribute, Class and Style Binding with <code>v-bind</code></h2>
       <p>Highlighting Specific Authors:</p>
+      <ul>
+        <li v-for="author in authors" :key="author.id" :class="{ highlight: author.name === 'George Orwell' }"
+          :style="{ fontWeight: author.name === 'George Orwell' ? 'bold' : 'normal' }">
+          {{ author.name }} ({{ author.birthYear }})
+        </li>
+      </ul>
     </section>
   </div>
 </template>
@@ -157,6 +163,7 @@ h1,
 h2 {
   color: #333;
 }
+
 h1 {
   text-align: center;
 }
@@ -196,6 +203,7 @@ ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   background-color: #f0f0f0;
   padding: 10px;
