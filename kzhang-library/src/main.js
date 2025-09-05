@@ -4,7 +4,10 @@ import App from './App.vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
-import { Theme } from '@primevue/themes';
+// import { Theme } from '@primevue/themes';
+import router from './router';
+import { useAuth } from '@/stores/useAuth'
+
 
 const app = createApp(App);
 app.use(PrimeVue, {
@@ -13,4 +16,8 @@ app.use(PrimeVue, {
     }
 });
 
-createApp(App).mount('#app')
+const auth = useAuth()
+auth.loadAuth()
+
+app.use(router)
+app.mount('#app')

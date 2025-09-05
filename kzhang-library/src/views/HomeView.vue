@@ -15,10 +15,26 @@
               <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
             </div>
             <div class="col-md-6 col-sm-6">
+              <label for="gender" class="form-label">Gender</label>
+              <select class="form-select" id="gender" @blur="validateGender(true)" @change="validateGender(false)"
+                v-model="formData.gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              <div v-if="errors.gender" class="text-danger">{{ errors.gender }}</div>
+            </div>
+            <div class="col-md-6 col-sm-6">
               <label for="password" class="form-label">Password</label>
               <input type="password" class="form-control" id="password" @blur="() => validatePassword(true)"
                 @input="() => validatePassword(false)" v-model="formData.password">
               <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <label for="confirm-password" class="form-label">Confirm password</label>
+              <input type="password" class="form-control" id="confirm-password" v-model="formData.confirmPassword"
+                @blur="() => validateConfirmPassword(true)" />
+              <div v-if="errors.confirmPassword" class="text-danger">{{ errors.confirmPassword }}</div>
             </div>
           </div>
           <div class="row mb-3">
@@ -36,22 +52,13 @@
               </div>
               <div v-if="errors.resident" class="text-danger">{{ errors.resident }}</div>
             </div>
-            <div class="col-md-6 col-sm-6">
-              <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" @blur="validateGender(true)" @change="validateGender(false)"
-                v-model="formData.gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-              <div v-if="errors.gender" class="text-danger">{{ errors.gender }}</div>
-            </div>
           </div>
           <div class="mb-3">
             <label for="reason" class="form-label">Reason for joining</label>
             <textarea class="form-control" id="reason" rows="3" @blur="validateReason(true)"
               @input="validateReason(false)" v-model="formData.reason"></textarea>
             <div v-if="errors.reason" class="text-danger">{{ errors.reason }}</div>
+            <div v-if="friendMessage" class="text-success">{{ friendMessage }}</div>
           </div>
           <div class="mb-3">
             <label for="reason" class="form-label">Suburb</label>
@@ -97,10 +104,10 @@
 
 <script setup>
 // Our logic will go here
+import { ref } from 'vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
-import { ref } from 'vue';
 
 const formData = ref({
   username: '',
@@ -138,10 +145,14 @@ const clearForm = () => {
 const errors = ref({
   username: null,
   password: null,
+  confirmPassword: null,
   resident: null,
   gender: null,
   reason: null,
+
 });
+
+const friendMessage = ref('');
 
 const validateName = (blur) => {
   if (formData.value.username.length < 3) {
@@ -175,6 +186,14 @@ const validatePassword = (blur) => {
   }
 };
 
+const validateConfirmPassword = (blur) => {
+  if (formData.value.password !== formData.value.confirmPassword) {
+    if (blur) errors.value.confirmPassword = 'Passwords do not match.'
+  } else {
+    errors.value.confirmPassword = null
+  }
+}
+
 const validateIsAustralian = (blur) => {
   if (formData.value.isAustralian === null) {
     if (blur) errors.value.resident = "Please choose Yes or No";
@@ -193,7 +212,7 @@ const validateGender = (blur) => {
 };
 
 const validateReason = (blur) => {
-  const text = formData.value.reason.trim();
+  const text = blur ? formData.value.reason.trim() : formData.value.reason;
   const minChars = 10;
 
   const friendRegex = /friend/i
@@ -204,12 +223,14 @@ const validateReason = (blur) => {
     friendMessage.value = ''
   }
 
-  if (text.length < minChars) {
+  if (text.trim().length < minChars) {
     if (blur) errors.value.reason = `Reason must be at least ${minChars} characters`
   } else {
     errors.value.reason = null
   }
-  formData.value.reason = text;
+  if (blur) {
+    formData.value.reason = text;
+  }
 }
 </script>
 
