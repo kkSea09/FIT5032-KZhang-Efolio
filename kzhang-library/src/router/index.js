@@ -3,6 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import LoginView from '@/views/LoginView.vue'
 import { useAuth } from '@/stores/useAuth'
+import FirebaseSigninView from '@/views/FirebaseSigninView.vue'
+import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
+import { meta } from 'eslint-plugin-vue'
 
 const routes = [
     {
@@ -20,6 +23,16 @@ const routes = [
         path: '/login',
         name: 'login',
         component: LoginView
+    },
+    {
+        path: '/FireLogin',
+        name: 'FireLogin',
+        component: FirebaseSigninView
+    },
+    {
+        path: '/FireRegister',
+        name: 'FireRegister',
+        component: FirebaseRegisterView
     },
     {
         path: '/:pathMatch(.*).*', redirect: '/'

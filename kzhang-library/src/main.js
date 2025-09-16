@@ -8,6 +8,8 @@ import Aura from '@primevue/themes/aura';
 import router from './router';
 import { useAuth } from '@/stores/useAuth'
 
+// firebase
+import './firebase/init'
 
 const app = createApp(App);
 app.use(PrimeVue, {

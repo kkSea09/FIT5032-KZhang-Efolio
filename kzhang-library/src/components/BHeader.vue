@@ -11,13 +11,20 @@
                 <li class="nav-item">
                     <router-link to="/about" class="nav-link" active-class="active">About</router-link>
                 </li>
+                <!-- Firebase login -->
+                <li class="nav-item">
+                    <router-link to="/FireLogin" class="nav-link" active-class="active">Firebase Login</router-link>
+                </li>
+                <!-- Firebase Register -->
+                <li class="nav-item">
+                    <router-link to="/FireRegister" class="nav-link" active-class="active">Firebase
+                        Reister</router-link>
+                </li>
 
 
                 <li v-if="!isAuthenticated">
                     <router-link to="/login" class="nav-link" active-class="active">Log in</router-link>
                 </li>
-
-
                 <li v-else>
                     <button @click="handleLogout" class="nav-link btn btn-link">Log out</button>
                 </li>
