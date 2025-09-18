@@ -32,5 +32,5 @@ const signin = () => {
 <style>
 .sign-in {
     text-align: center;
-} 
+}
 </style>

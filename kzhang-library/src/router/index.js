@@ -5,7 +5,7 @@ import LoginView from '@/views/LoginView.vue'
 import { useAuth } from '@/stores/useAuth'
 import FirebaseSigninView from '@/views/FirebaseSigninView.vue'
 import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
-import { meta } from 'eslint-plugin-vue'
+import AddBookView from '@/views/AddBookView.vue'
 
 const routes = [
     {
@@ -33,6 +33,11 @@ const routes = [
         path: '/FireRegister',
         name: 'FireRegister',
         component: FirebaseRegisterView
+    },
+    {
+        path: '/addBook',
+        name: 'AddBook',
+        component: AddBookView
     },
     {
         path: '/:pathMatch(.*).*', redirect: '/'

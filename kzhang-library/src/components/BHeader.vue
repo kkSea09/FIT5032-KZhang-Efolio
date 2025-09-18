@@ -18,7 +18,7 @@
                 <!-- Firebase Register -->
                 <li class="nav-item">
                     <router-link to="/FireRegister" class="nav-link" active-class="active">Firebase
-                        Reister</router-link>
+                        Register</router-link>
                 </li>
 
 
@@ -27,6 +27,9 @@
                 </li>
                 <li v-else>
                     <button @click="handleLogout" class="nav-link btn btn-link">Log out</button>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/addBook" class="nav-link" active-class="active">Add Book</router-link>
                 </li>
             </ul>
         </header>
@@ -45,3 +48,5 @@ const handleLogout = () => {
     router.push('/login')
 }
 </script>
+
+<style></style>
