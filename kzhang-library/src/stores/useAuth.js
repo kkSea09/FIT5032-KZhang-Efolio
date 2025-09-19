@@ -21,6 +21,9 @@ function loadAuth() {
 
 const VALID_CREDENTIALS = { username: 'admin', password: '12345@' }
 
+
+
+// localStorage login
 function login(username, password) {
     if (username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password) {
         isAuthenticated.value = true
@@ -36,6 +39,16 @@ function login(username, password) {
     }
 }
 
+// Firebase login
+function setUserFromFirebase(payload) {
+    isAuthenticated.value = true
+    currentUser.value = payload
+    localStorage.setItem(AUTH_KEY, JSON.stringify({
+        isAuthenticated: true,
+        currentUser: currentUser.value
+    }))
+}
+
 function logout() {
     isAuthenticated.value = false
     currentUser.value = null
@@ -48,7 +61,8 @@ export function useAuth() {
         currentUser,
         login,
         logout,
-        loadAuth
+        loadAuth,
+        setUserFromFirebase
     }
 }
 

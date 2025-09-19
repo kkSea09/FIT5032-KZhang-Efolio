@@ -6,6 +6,7 @@ import { useAuth } from '@/stores/useAuth'
 import FirebaseSigninView from '@/views/FirebaseSigninView.vue'
 import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
 import AddBookView from '@/views/AddBookView.vue'
+import LogoutView from '@/views/LogoutView.vue'
 
 const routes = [
     {
@@ -40,6 +41,12 @@ const routes = [
         component: AddBookView
     },
     {
+        path: '/logout',
+        name: 'logout',
+        component: LogoutView
+    },
+
+    {
         path: '/:pathMatch(.*).*', redirect: '/'
     }
 ]
@@ -50,14 +57,23 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const { isAuthenticated } = useAuth()
-    if (to.meta.requiresAuth && !isAuthenticated.value) {
-        next({ name: 'login', query: { redirect: to.fullPath } })
-    } else {
-        next()
+    const { isAuthenticated, currentUser, loadAuth } = useAuth()
+    if (!isAuthenticated.value) {
+        loadAuth()
     }
+
+    if (to.meta.requiresAuth && !isAuthenticated.value) {
+        return next({ name: 'FireLogin', query: { redirect: to.fullPath } })
+    }
+
+    if (to.meta.roles && to.meta.roles.length) {
+        const role = currentUser.value?.role
+        if (!role || !to.meta.roles.includes(role)) {
+            return next({ name: 'FireLogin', query: { denied: '1', redirect: to.fullPath } })
+        }
+    }
+
+    next()
 })
-
-
 
 export default router

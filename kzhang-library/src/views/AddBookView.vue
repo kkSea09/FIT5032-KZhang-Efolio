@@ -43,12 +43,19 @@ const addBook = async () => {
             <button type="submit">Add Book</button>
         </form>
     </div>
+    <div class="bookList">
+        <BookList />
+    </div>
 
-    <BookList />
 </template>
 
 <style>
 .bookCard {
+    text-align: center;
+}
+
+.bookList {
+    margin-top: 60px;
     text-align: center;
 }
 </style>

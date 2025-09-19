@@ -11,22 +11,30 @@
 import { ref } from "vue"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { useRouter } from "vue-router"
+import { useAuth } from "@/stores/useAuth"
+import { db } from "@/firebase/init"
+import { doc, getDoc, setDoc } from "firebase/firestore"
+
 
 const email = ref("")
 const password = ref("")
 const router = useRouter()
 const auth = getAuth()
+const { setUserFromFirebase } = useAuth()
 
-const signin = () => {
-    signInWithEmailAndPassword(getAuth(), email.value, password.value)
-        .then((data) => {
-            console.log("Firebase Sign in Successful!")
-            router.push("/")
-            console.log(auth.currentUser) //To check the current User signed in
-        }).catch((error) => {
-            console.log(error.code);
-        })
-};
+const signin = async () => {
+    try {
+        const { user } = await signInWithEmailAndPassword(auth, email.value, password.value)
+        const snap = await getDoc(doc(db, "users", user.uid))
+        const role = snap.exists() ? (snap.data().role || "user") : "user"
+        setUserFromFirebase({ uid: user.uid, email: user.email, role })
+        console.log("Firebase Sign in Successful!")
+        console.log(auth.currentUser)
+        router.push("/")
+    } catch (error) {
+        console.log(error.code)
+    }
+}
 </script>
 
 <style>
