@@ -49,7 +49,7 @@ const temperature = computed(() => {
 // Get the current weather icon using the API link
 const iconUrl = computed(() => {
     return weatherData.value
-        ? `http://api.openweathermap.org/img/w/${weatherData.value.weather[0].icon}.png`
+        ? `https://api.openweathermap.org/img/w/${weatherData.value.weather[0].icon}.png`
         : null;
 });
 
@@ -63,7 +63,7 @@ const fetchCurrentLocationWeather = async () => {
         navigator.geolocation.getCurrentPosition(async (position) => {
             const { latitude, longitude } = position.coords;
             // API link to obtain the current weather based on the current location browser identified 
-            const url = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
             // await means wait for the fetchWeatherData method to complete before proceeding
             await fetchWeatherData(url);
         });
@@ -73,7 +73,7 @@ const fetchCurrentLocationWeather = async () => {
 const searchByCity = async () => {
     const cityName = city.value.trim()
     if (cityName) {
-        const url = `http://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apikey}`;
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apikey}`;
         await fetchWeatherData(url);
     }
 };
