@@ -131,7 +131,7 @@ onMounted(() => {
 
 .search-button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #7db2ea;
     color: rgb(224, 134, 134);
     border: none;
     border-radius: 5px;
